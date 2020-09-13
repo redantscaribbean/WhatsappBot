@@ -1,8 +1,7 @@
 from typing import Optional
 from typing import List
 from fastapi import FastAPI
-from pydantic import BaseModel, validator, Required, fields
-
+from pydantic import BaseModel
 app = FastAPI()
 
 db = []
@@ -70,26 +69,27 @@ class PayloadContent(BaseModel):
 
 
 class Sender(BaseModel):
-    phone: str
-    name: str
-    country_code: str
-    dial_code: str
+    phone: Optional[str] = None
+    name: Optional[str] = None
+    country_code: Optional[str] = None
+    dial_code: Optional[str] = None
 
 
 class Payload(BaseModel):
-    id: str
-    source: int
-    type: str
+    id: Optional[str] = None
+    source: Optional[int] = None
+    type: Optional[str] = None
     phone: Optional[str] = None
     gsId: Optional[str] = None
     destination: Optional[str] = None
-    payload: PayloadContent
-    sender: Sender
+    payload: Optional[PayloadContent] = None
+    sender: Optional[Sender] = None
 
 
 class Message(BaseModel):
-    app: str
-    timestamp: int
+    app: Optional[str] = None
+    timestamp: Optional[int] = None
     version: Optional[int] = None
-    type: str
-    payload: Payload
+    type: Optional[str] = None
+    payload: Optional[Payload] = None
+
