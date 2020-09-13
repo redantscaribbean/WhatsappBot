@@ -11,4 +11,5 @@ db = []
 
 @app.post('/webhook/',  status_code=200)
 async def index(message: Inbound.Message):
-    return message
+    return '', 200
+
