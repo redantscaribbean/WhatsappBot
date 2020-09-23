@@ -17,5 +17,7 @@ collection = db["Profile"]
 
 @app.post('/webhook/',  status_code=200)
 async def index(message: Inbound.Message):
-    collection.insert_one(message.dict())
+    if message.type == 'message':
+        if message.payload.type == 'text':
+            collection.insert_one(message.dict())
     return message
