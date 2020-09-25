@@ -2,6 +2,7 @@ from typing import Optional
 from typing import List
 from fastapi import FastAPI
 from pydantic import BaseModel
+
 app = FastAPI()
 
 db = []
@@ -57,6 +58,10 @@ class Contact(BaseModel):
 
 
 class PayloadContent(BaseModel):
+    date: Optional[str] = None
+    timestamp: Optional[int] = None
+    type: Optional[str] = None
+    direction: Optional[str] = None
     caption: Optional[str] = None
     text: Optional[str] = None
     url: Optional[str] = None
