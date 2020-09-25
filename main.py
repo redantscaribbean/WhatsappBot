@@ -34,6 +34,5 @@ async def index(message: Inbound.Message):
                 messages.direction = "Recieved"
                 profile.messages = messages
                 print(profile)
-
-            #collection.insert_one(message.dict())
+                collection.insert_one(profile.dict())
     return message
