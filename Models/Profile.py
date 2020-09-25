@@ -15,4 +15,4 @@ class Messages(BaseModel):
 class Profile(BaseModel):
     senderName: Optional[str] = None
     senderPhone: Optional[str] = None
-    messages: Optional[Messages] = None
+    messages: Optional[list] = None
