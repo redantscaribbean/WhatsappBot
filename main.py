@@ -33,7 +33,7 @@ async def index(DBMessage: Inbound.Message):
             UserProfile.senderName = DBMessage.payload.sender.name
             UserProfile.senderPhone = DBMessage.payload.sender.phone
             MessageArray.append(DBMessage.payload.payload)
-            UserProfile.messages = MessageArray
+            UserProfile.message = MessageArray
             collection.insert_one(UserProfile.dict())
         else:   #Append message
             MessageArray.append(DBMessage.payload)
