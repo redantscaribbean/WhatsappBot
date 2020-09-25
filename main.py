@@ -22,7 +22,7 @@ async def index(message: Inbound.Message):
     if message.type == 'message':
         if message.payload.type == 'text':
             #Check if User Phone number already exists, if exists then add message to user else create user and add message. Search DB for Sender Phone
-            results = collection.find_one({"sender": message.payload.sender.phone})
+            results = collection.find_one({"senderPhone": message.payload.sender.phone})
             if results == None:
                 #Add user
                 profile.senderName = message.payload.sender.name
