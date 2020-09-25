@@ -35,7 +35,7 @@ async def index(DBMessage: Inbound.Message):
                 NewMessage.timestamp = DBMessage.timestamp
                 NewMessage.url = DBMessage.payload.payload.url
                 NewMessage.direction = "Received"
-                MessageArray.append(NewMessage)
+                MessageArray.append(DBMessage.payload.payload)
                 UserProfile.messages = MessageArray
                 collection.insert_one(UserProfile.dict())
             else:   #Append message
@@ -44,8 +44,8 @@ async def index(DBMessage: Inbound.Message):
                 NewMessage.timestamp = DBMessage.timestamp
                 NewMessage.url = DBMessage.payload.payload.url
                 NewMessage.direction = "Received"
-                MessageArray.append(NewMessage)
+                MessageArray.append(DBMessage.payload)
                 where = {"senderPhone": DBMessage.payload.sender.phone}
-                update = {"$push": {"messages": NewMessage.dict()}}
+                update = {"$push": {"messages": DBMessage.payload.payload.dict()}}
                 collection.update_one(where, update)
     return "hi How are you"
