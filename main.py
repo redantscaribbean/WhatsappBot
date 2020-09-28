@@ -7,7 +7,9 @@ import Models.Profile as Profile
 import pymongo
 from pymongo import MongoClient
 import json
+import requests
 import datetime
+
 app = FastAPI()
 
 
@@ -18,6 +20,8 @@ collection = db["Profile"]
 
 UserProfile = Profile.Profile()
 MessageArray = []
+
+
 
 @app.post('/webhook/',  status_code=200)
 async def index(DBMessage: Inbound.Message):
@@ -41,3 +45,13 @@ async def index(DBMessage: Inbound.Message):
             update = {"$push": {"messages": DBMessage.payload.payload.dict()}}
             collection.update_one(where, update)
     return "hi How are you"
+
+
+def sendMessage():
+    url = 'https://api.gupshup.io/sm/api/v1/msg'
+    payload = {"channel" : "whatsapp","source" : "18683039164","destination" : "18687067421","src.name":"BottixWhatsappDemo", "message":json.dumps({"isHSM":"false","type": "text","text": "Hi John, how are you?"})}
+    headers = {'content-type': 'application/x-www-form-urlencoded', 'apikey': '6ca26a782aeb4f1ecfea2e1b5252aabe', 'Cache-Control': 'no-cache' }
+    r = requests.post(url, data=payload, headers=headers)
+    print(r.text)
+
+sendMessage()
