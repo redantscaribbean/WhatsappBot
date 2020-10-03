@@ -32,6 +32,7 @@ async def index(DBMessage: Inbound.Message):
         DBMessage.payload.payload.type = DBMessage.payload.type
         DBMessage.payload.payload.timestamp = DBMessage.timestamp
         DBMessage.payload.payload.date = datetime.datetime.now()
+        #Check if user exists in DB
         results = collection.find_one({"senderPhone": DBMessage.payload.sender.phone})
         if results is None:
             # Add user
@@ -39,13 +40,10 @@ async def index(DBMessage: Inbound.Message):
             UserProfile.senderPhone = DBMessage.payload.sender.phone
             MessageArray.append(DBMessage.payload.payload)
             UserProfile.message = MessageArray
-            collection.insert_one(UserProfile.dict())
+            addToDB(UserProfile, "insert")
         else:
             # Append message
-            MessageArray.append(DBMessage.payload)
-            where = {"senderPhone": DBMessage.payload.sender.phone}
-            update = {"$push": {"messages": DBMessage.payload.payload.dict()}}
-            collection.update_one(where, update)
+            addToDB(DBMessage, "update")
     return "hi How are you"
 
 
@@ -57,6 +55,15 @@ def sendMessage():
     print(r.text)
 
 
-sendMessage()
+def addToDB(message, type):
+    if type == "insert":
+        collection.insert_one(message.dict())
+    else:
+        where = {"senderPhone": message.payload.sender.phone}
+        update = {"$push": {"messages": message.payload.payload.dict()}}
+        collection.update_one(where, update)
+
+
+#sendMessage()
 
 

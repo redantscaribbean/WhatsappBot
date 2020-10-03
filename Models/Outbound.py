@@ -6,6 +6,9 @@ import Models.Inbound as Inbound
 
 
 class TextMessage(BaseModel):
+    date: Optional[str] = None
+    timestamp: Optional[int] = None
+    direction: Optional[str] = None
     isHSM: Optional[str] = None
     type: Optional[str] = None
     text: Optional[str] = None
